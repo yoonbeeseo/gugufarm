@@ -1,5 +1,3 @@
 packages:
-  - "web"
-  - "server"
-  - "types"
-  - "expo-app"
+  - "packages/*"
+  - "apps/*"
