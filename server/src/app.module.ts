@@ -1,13 +1,19 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ProfileService } from './profile/profile.service';
-import { ProfileController } from './profile/profile.controller';
+import { FirebaseModule } from './firebase.module';
 import { ProfileModule } from './profile/profile.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [ProfileModule],
-  controllers: [AppController, ProfileController],
-  providers: [AppService, ProfileService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    FirebaseModule.forRootAsync(),
+    ProfileModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

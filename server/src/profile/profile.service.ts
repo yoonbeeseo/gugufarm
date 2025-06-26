@@ -1,26 +1,42 @@
-import { Profile, ProfileWithoutID } from './../../../types/profile';
-import { Injectable } from '@nestjs/common';
-import { DocumentData, WithFieldValue } from 'firebase-admin/firestore';
-import { firestore } from 'src/lib/firebase';
+import { Body, Inject, Injectable } from '@nestjs/common';
+import { Profile } from 'types/profile';
 
 @Injectable()
 export class ProfileService {
-  private ref = firestore.collection('profiles');
+  private ref: FirebaseFirestore.CollectionReference;
+
+  constructor(
+    @Inject('FIREBASE_ADMIN')
+    private readonly admin: typeof import('firebase-admin'),
+  ) {
+    this.ref = this.admin.firestore().collection('profiles');
+  }
 
   async findAll() {
     const snap = await this.ref.get();
-    return snap.docs.map((doc) => ({ ...doc.data() }));
+    return snap.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
   }
 
-  async create(profile: ProfileWithoutID) {
-    const ref = await this.ref.add(profile as WithFieldValue<DocumentData>);
-    const doc = await ref.get();
-    return { id: doc.id, ...doc.data() } as Profile;
+  async findOne(id: string) {
+    const snap = await this.ref.doc(id).get();
+
+    if (snap) {
+      return { id: snap.id, ...snap.data() };
+    }
+    return 'No Such User!';
+  }
+
+  async create(user: Profile) {
+    await this.ref.doc(user.id).set(user);
+
+    return { newUser: user };
   }
 
   async deleteOne(id: string) {
     const snap = await this.ref.doc(id).get();
+    const deletedUser = { ...snap.data(), id };
+
     await this.ref.doc(id).delete();
-    return { deletedUser: { ...snap.data() } };
+    return { deletedUser };
   }
 }

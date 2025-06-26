@@ -1,23 +1,34 @@
-import { Controller, Get, Post, Delete, Body, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ProfileService } from './profile.service';
-import { ProfileWithoutID } from '../../../types/profile';
+import { Profile } from 'types/profile';
 
 @Controller('profile')
 export class ProfileController {
-  constructor(private readonly profileService: ProfileService) {}
+  constructor(private profileService: ProfileService) {}
+
+  @Get('test')
+  test() {
+    return 'testing profile/test api endpoint';
+  }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    console.log('finding user with id', id);
+    return this.profileService.findOne(id);
+  }
 
   @Get()
-  findAll() {
-    return this.profileService.findAll();
+  async findAll() {
+    console.log('finding all users...');
+    return await this.profileService.findAll();
   }
 
   @Post()
-  create(@Body('profile') profile: ProfileWithoutID) {
-    return this.profileService.create(profile);
+  async create(@Body() user: Profile) {
+    return await this.profileService.create(user);
   }
 
   @Delete(':id')
-  deleteOne(@Param('id') id: string) {
-    return this.profileService.deleteOne(id);
+  async deleteOne(@Param('id') id: string) {
+    return await this.profileService.deleteOne(id);
   }
 }
