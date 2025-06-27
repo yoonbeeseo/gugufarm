@@ -20,13 +20,14 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": ["src/*"],
-      "@gugufarm/types": ["../../packages/types/src"]
+      "@gugufarm/types": ["../../packages/types/src/*.ts"]
     }
   },
   "exclude": [
     "node_modules",
     "**/*.config.js",
     "**/*.config.mjs",
-    "**/*.config.ts"
+    "**/*.config.ts",
+    "dist"
   ]
 }

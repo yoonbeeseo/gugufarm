@@ -54,3 +54,7 @@ export class FirebaseService implements OnModuleInit {
     return this.firestore.doc(path);
   }
 }
+
+export enum FBCollection {
+  PROFILES = 'profiles',
+}
