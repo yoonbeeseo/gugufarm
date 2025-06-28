@@ -1,23 +1,33 @@
 import { FBCollection, FirebaseService } from '@/firebase/firebase.service';
 import { Profile } from '@gugufarm/types';
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 
 @Injectable()
 export class ProfileService {
   constructor(private fb: FirebaseService) {}
 
   async findAllUsers() {
-    const snap = await this.fb.collection(FBCollection.PROFILES).get();
-    return snap.docs.map((doc) => ({ ...doc.data() }));
+    try {
+      const snap = await this.fb.collection(FBCollection.PROFILES).get();
+      return snap.docs.map((doc) => ({ ...doc.data() }));
+    } catch (error: any) {
+      throw new HttpException(error.message, HttpStatus.BAD_GATEWAY);
+    }
   }
 
   async findOne(id: string) {
     const snap = await this.fb.collection(FBCollection.PROFILES).doc(id).get();
-    if (!snap) {
-      return null;
+    if (!snap.data()) {
+      throw new NotFoundException(`User with id: ${id} not found!`);
     }
     return snap.data();
   }
+
   async createOne(profile: Profile) {
     await this.fb
       .collection(FBCollection.PROFILES)

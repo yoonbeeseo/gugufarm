@@ -8,3 +8,4 @@ export const profileSchema = z.object({
 })
 
 export type Profile = z.infer<typeof profileSchema>
+export type ProfileWithoutID = Omit<Profile, "id">

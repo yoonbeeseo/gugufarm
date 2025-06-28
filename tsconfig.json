@@ -13,6 +13,9 @@
     "declaration": true,
     "declarationMap": true,
     "composite": true,
-    "incremental": true
-  }
+    "incremental": true,
+    "noEmit": true
+  },
+  "exclude": ["node_modules", "dist", "dist/**/*", "**/*.config.js", "**/*.config.mjs", "**/*.config.ts"],
+  "references": [{ "path": "packages/types" }, { "path": "apps/web" }, { "path": "apps/server" }]
 }

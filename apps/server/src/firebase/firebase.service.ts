@@ -57,4 +57,5 @@ export class FirebaseService implements OnModuleInit {
 
 export enum FBCollection {
   PROFILES = 'profiles',
+  RECORDS = 'records',
 }

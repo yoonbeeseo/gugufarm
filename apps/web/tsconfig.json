@@ -21,9 +21,9 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@gugufarm/types": ["../../packages/types/src"]
+      "@gugufarm/types": ["../../packages/types/src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist", "dist/**/*", "**/*.config.js", "**/*.config.mjs", "**/*.config.ts", "../packages/types/src/**/*.ts"]
 }

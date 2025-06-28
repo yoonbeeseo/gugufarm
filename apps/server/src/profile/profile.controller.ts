@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { Profile, ProfileWithoutID } from '@gugufarm/types';
 
@@ -35,5 +44,10 @@ export class ProfileController {
     @Body() updatedProfile: ProfileWithoutID,
   ) {
     return await this.profileService.patchProfile({ ...updatedProfile, id });
+  }
+
+  @Delete(':id')
+  async deleteProfile(@Param('id') id: string) {
+    return await this.profileService.deleteUser(id);
   }
 }

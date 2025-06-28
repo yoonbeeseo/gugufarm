@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { FirebaseModule } from './firebase/firebase.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProfileModule } from './profile/profile.module';
+import { RecordsModule } from './records/records.module';
 import firebaseConfig from './config/firebase.config';
 
 @Module({
@@ -15,6 +16,7 @@ import firebaseConfig from './config/firebase.config';
     }),
     FirebaseModule,
     ProfileModule,
+    RecordsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
